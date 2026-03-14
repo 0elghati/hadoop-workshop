@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  core-site.xml – Global Hadoop settings
+  fs.defaultFS  : default filesystem URI (HDFS on localhost:9000)
+  hadoop.tmp.dir: base directory for temporary files
+-->
+<configuration>
+
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://localhost:9000</value>
+    <description>Default HDFS URI used by all Hadoop components.</description>
+  </property>
+
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/hadoop/tmp</value>
+    <description>Base directory for temporary files used by Hadoop.</description>
+  </property>
+
+</configuration>
