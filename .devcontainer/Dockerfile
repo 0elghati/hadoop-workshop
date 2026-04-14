@@ -7,13 +7,18 @@ ENV DEBIAN_FRONTEND=noninteractive \
     HADOOP_HOME=/opt/hadoop \
     HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop \
     HADOOP_LOG_DIR=/opt/hadoop/logs \
-    HADOOP_DATA_DIR=/hadoop
+    HADOOP_DATA_DIR=/hadoop \
+    PYSPARK_PYTHON=/usr/bin/python3 \
+    PYSPARK_DRIVER_PYTHON=/usr/bin/python3
 
 ENV PATH="${JAVA_HOME}/bin:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin:${PATH}"
 
 # ── System packages ────────────────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y --no-install-recommends \
     openjdk-11-jdk \
+    python3 \
+    python3-pip \
+    python3-venv \
     openssh-server \
     openssh-client \
     rsync \
@@ -27,6 +32,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     less \
     procps \
     && rm -rf /var/lib/apt/lists/*
+
+# ── Install PySpark (for Python-based Spark workloads) ───────────────────────
+RUN python3 -m pip install --no-cache-dir --upgrade pip \
+    && python3 -m pip install --no-cache-dir pyspark==3.5.1
 
 # ── Create hadoop user ─────────────────────────────────────────────────────────
 RUN useradd -m -s /bin/bash hadoop \
@@ -105,6 +114,8 @@ RUN cat >> ~/.bashrc << 'EOF'
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export HADOOP_HOME=/opt/hadoop
 export HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+export PYSPARK_PYTHON=/usr/bin/python3
+export PYSPARK_DRIVER_PYTHON=/usr/bin/python3
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin:$PATH
 
 # ── Handy aliases ──────────────────────────────────────────────────
@@ -118,6 +129,7 @@ alias yarn-status='yarn node -list'
 alias jps-hadoop='jps | grep -E "NameNode|DataNode|ResourceManager|NodeManager|JobHistoryServer|SecondaryNameNode"'
 alias start-hadoop='bash /usr/local/bin/start-hadoop.sh'
 alias hadoop-logs='tail -f $HADOOP_HOME/logs/*.log 2>/dev/null || echo "No logs yet"'
+alias pyspark-version='python3 -c "import pyspark; print(pyspark.__version__)"'
 EOF
 RUN sed -i 's/\r$//' /home/hadoop/.bashrc
 

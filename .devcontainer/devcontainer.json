@@ -35,7 +35,8 @@
     "vscode": {
       "extensions": [
         "redhat.java",
-        "vscjava.vscode-java-pack"
+        "vscjava.vscode-java-pack",
+        "ms-python.python"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash",
@@ -44,6 +45,8 @@
           "JAVA_HOME": "/usr/lib/jvm/java-11-openjdk-amd64",
           "HADOOP_HOME": "/opt/hadoop",
           "HADOOP_CONF_DIR": "/opt/hadoop/etc/hadoop",
+          "PYSPARK_PYTHON": "/usr/bin/python3",
+          "PYSPARK_DRIVER_PYTHON": "/usr/bin/python3",
           "PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/hadoop/bin:/opt/hadoop/sbin:/usr/lib/jvm/java-11-openjdk-amd64/bin"
         }
       }

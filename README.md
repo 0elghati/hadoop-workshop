@@ -97,6 +97,34 @@ yarn application -list
 yarn application -kill <applicationId>
 ```
 
+### PySpark (preinstalled)
+```bash
+# Confirm PySpark is available
+pyspark-version
+
+# Or using Python directly
+python3 -c "import pyspark; print(pyspark.__version__)"
+
+# Start a local PySpark shell
+pyspark --master local[2]
+```
+
+### PySpark manual install (no rebuild fallback)
+If rebuilding the image is not possible, run this script inside the container terminal:
+
+```bash
+bash .devcontainer/scripts/install-pyspark-manual.sh
+source ~/.bashrc
+```
+
+Optional: install a specific version:
+
+```bash
+PYSPARK_VERSION=3.5.1 bash .devcontainer/scripts/install-pyspark-manual.sh
+```
+
+> Manual installs only affect the current container instance. If the container is removed and recreated, run the script again.
+
 ### Aliases available in every terminal
 | Alias | Equivalent |
 |-------|-----------|
@@ -119,6 +147,8 @@ yarn application -kill <applicationId>
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 HADOOP_HOME=/opt/hadoop
 HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+PYSPARK_PYTHON=/usr/bin/python3
+PYSPARK_DRIVER_PYTHON=/usr/bin/python3
 ```
 
 ---
